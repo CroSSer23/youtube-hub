@@ -1,1 +1,125 @@
- 
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Hub - Анализатор длительности текста</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <i class="fab fa-youtube"></i>
+                <h1>YouTube Hub</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#" class="active">Хронометраж</a></li>
+                    <li><a href="#">Помощь с контентом</a></li>
+                    <li><a href="#">О сервисе</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="hero">
+            <h2>Рассчитайте длительность текста для своего YouTube видео</h2>
+            <p>Наш инструмент поможет определить, сколько времени займет озвучка вашего текста в секундах и минутах</p>
+        </section>
+
+        <section class="text-analyzer">
+            <div class="controls">
+                <div class="tempo-selector">
+                    <h3>Темп речи:</h3>
+                    <div class="tempo-options">
+                        <label>
+                            <input type="radio" name="tempo" value="slow" checked>
+                            <span>Размеренный (~100 сл/мин)</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="tempo" value="normal">
+                            <span>Стандартный (~130 сл/мин)</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="tempo" value="fast">
+                            <span>Быстрый (~150 сл/мин)</span>
+                        </label>
+                    </div>
+                </div>
+                <button id="clearBtn" class="btn btn-secondary">Очистить поле</button>
+            </div>
+
+            <div class="text-input-container">
+                <textarea id="textInput" placeholder="Скопируйте сюда текст для вашего YouTube видео..."></textarea>
+            </div>
+
+            <div class="results">
+                <div class="result-card">
+                    <div class="result-icon"><i class="fas fa-clock"></i></div>
+                    <div class="result-content">
+                        <h3>Длительность:</h3>
+                        <p id="duration">0 мин 0 сек</p>
+                    </div>
+                </div>
+                
+                <div class="result-card">
+                    <div class="result-icon"><i class="fas fa-font"></i></div>
+                    <div class="result-content">
+                        <h3>Слов:</h3>
+                        <p id="wordCount">0</p>
+                    </div>
+                </div>
+                
+                <div class="result-card">
+                    <div class="result-icon"><i class="fas fa-file-alt"></i></div>
+                    <div class="result-content">
+                        <h3>Страниц:</h3>
+                        <p id="pageCount">0 (А4, шрифт Times New Roman, размер 14)</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="tips">
+            <h2>Полезные советы для создателей контента</h2>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <div class="tip-icon"><i class="fas fa-microphone"></i></div>
+                    <h3>Правило: 2 слова = 1 секунда</h3>
+                    <p>Это базовое правило для расчета хронометража при стандартной скорости речи. Его используют профессиональные дикторы и создатели контента.</p>
+                </div>
+                
+                <div class="tip-card">
+                    <div class="tip-icon"><i class="fas fa-pause"></i></div>
+                    <h3>Важность пауз</h3>
+                    <p>Не забывайте о паузах - они помогают зрителям усвоить информацию. Расставляйте смысловые акценты с помощью коротких пауз перед важными фразами.</p>
+                </div>
+                
+                <div class="tip-card">
+                    <div class="tip-icon"><i class="fas fa-running"></i></div>
+                    <h3>Динамика речи</h3>
+                    <p>Для удержания внимания аудитории меняйте темп речи. Важную информацию произносите медленнее, фоновую - быстрее.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="copyright">
+                <p>© 2023 YouTube Hub. Все права защищены.</p>
+            </div>
+            <div class="social">
+                <a href="#"><i class="fab fa-youtube"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+    </footer>
+    
+    <script src="script.js"></script>
+</body>
+</html> 
