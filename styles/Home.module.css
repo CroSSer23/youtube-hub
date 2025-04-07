@@ -1,0 +1,501 @@
+/* Основные настройки */
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Roboto', Arial, sans-serif;
+  color: var(--text-color);
+  background-color: var(--bg-color);
+  line-height: 1.6;
+}
+
+/* Хедер */
+.header {
+  padding: 1rem 5%;
+  background-color: var(--card-bg);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.logoContainer {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.logoContainer i {
+  color: var(--primary-color);
+  font-size: 2rem;
+}
+
+.logoContainer h1 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  background: var(--title-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Основной контент */
+.main {
+  flex: 1;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 5%;
+  width: 100%;
+}
+
+/* Героический раздел */
+.hero {
+  text-align: center;
+  margin: 3rem 0;
+  position: relative;
+}
+
+.hero h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  background: var(--title-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero p {
+  font-size: 1.1rem;
+  max-width: 700px;
+  margin: 0 auto 2rem;
+  color: var(--text-secondary);
+}
+
+.heroAnimation {
+  max-width: 500px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.playButton {
+  width: 80px;
+  height: 80px;
+  background-color: var(--primary-color);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 2rem auto;
+  cursor: pointer;
+  position: relative;
+  box-shadow: 0 6px 20px rgba(255, 0, 0, 0.25);
+  transition: var(--transition);
+}
+
+.playButton:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 25px rgba(255, 0, 0, 0.3);
+}
+
+.playButton::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: rgba(255, 0, 0, 0.2);
+  animation: pulse 2s infinite;
+}
+
+.playButton i {
+  color: white;
+  font-size: 1.8rem;
+  margin-left: 5px;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  70% {
+    transform: scale(1.3);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1.3);
+    opacity: 0;
+  }
+}
+
+/* Анализатор текста */
+.analyzer {
+  background-color: var(--card-bg);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  padding: 2rem;
+  margin-bottom: 3rem;
+  transition: var(--transition);
+  border: 1px solid var(--input-border);
+  width: 100%;
+}
+
+.controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.tempoSelector h3 {
+  font-size: 1.1rem;
+  margin-bottom: 0.8rem;
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.tempoOptions {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.tempoOptions label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  transition: var(--transition);
+  position: relative;
+  background-color: var(--button-bg);
+  color: var(--text-color);
+}
+
+.tempoOptions label.active {
+  background-color: rgba(255, 0, 0, 0.1);
+  color: var(--primary-color);
+  font-weight: 500;
+}
+
+.tempoOptions input {
+  opacity: 0;
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+.tempoOptions span {
+  font-size: 0.95rem;
+}
+
+.clearBtn {
+  padding: 0.7rem 1.5rem;
+  border-radius: 20px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+  border: none;
+  background-color: var(--button-bg);
+  color: var(--text-color);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.clearBtn:hover {
+  background-color: var(--button-hover);
+}
+
+.clearBtn i {
+  font-size: 0.9rem;
+}
+
+.textInputContainer {
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.textInputContainer textarea {
+  width: 100%;
+  min-height: 200px;
+  padding: 1.2rem;
+  border: 1px solid var(--input-border);
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+  resize: vertical;
+  font-family: inherit;
+  transition: var(--transition);
+  background-color: transparent;
+  position: relative;
+  z-index: 1;
+  color: var(--text-color);
+}
+
+.textInputContainer textarea:focus {
+  outline: none;
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 3px rgba(66, 133, 244, 0.15);
+}
+
+.textBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--text-bg-gradient);
+  border-radius: var(--border-radius);
+  z-index: 0;
+}
+
+.results {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.2rem;
+  width: 100%;
+}
+
+.resultCard {
+  background: var(--result-card-bg);
+  border-radius: var(--border-radius);
+  padding: 1.2rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  position: relative;
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--input-border);
+  transition: var(--transition);
+  min-width: 0;
+}
+
+.resultCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.resultIcon {
+  background: var(--result-icon-bg);
+  color: white;
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  box-shadow: 0 4px 10px rgba(255, 0, 0, 0.2);
+  flex-shrink: 0;
+}
+
+.resultContent {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.resultContent h3 {
+  font-size: 0.9rem;
+  margin-bottom: 0.3rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.resultContent p {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-color);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.copyBtn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background-color: transparent;
+  color: var(--text-secondary);
+  border: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.copyBtn:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  color: var(--accent-color);
+}
+
+.copyBtn i.fa-check {
+  color: #4caf50;
+}
+
+/* Советы */
+.tips {
+  margin: 3rem 0;
+}
+
+.tips h2 {
+  font-size: 1.8rem;
+  text-align: center;
+  margin-bottom: 2rem;
+  color: var(--text-color);
+  position: relative;
+  display: inline-block;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.tips h2::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  width: 50%;
+  height: 3px;
+  background: var(--title-gradient);
+  left: 25%;
+}
+
+.tipsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.tipCard {
+  background-color: var(--card-bg);
+  border-radius: var(--border-radius);
+  padding: 2rem;
+  box-shadow: var(--shadow);
+  transition: var(--transition);
+  border: 1px solid var(--input-border);
+  position: relative;
+  overflow: hidden;
+}
+
+.tipCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 5px;
+  height: 100%;
+  background: linear-gradient(180deg, var(--primary-color) 0%, var(--accent-color) 100%);
+}
+
+.tipCard:hover {
+  transform: translateY(-7px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
+.tipIcon {
+  background: var(--tip-icon-bg);
+  color: white;
+  width: 60px;
+  height: 60px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 5px 15px rgba(66, 133, 244, 0.25);
+}
+
+.tipCard h3 {
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  color: var(--text-color);
+}
+
+.tipCard p {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+/* Подвал */
+.footer {
+  padding: 1.5rem 0;
+  text-align: center;
+  background-color: var(--footer-bg);
+  color: var(--footer-text);
+  margin-top: auto;
+}
+
+.footer p {
+  opacity: 0.8;
+  font-size: 0.9rem;
+}
+
+/* Медиа-запросы */
+@media (max-width: 992px) {
+  .results {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .resultContent p {
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero h2 {
+    font-size: 2rem;
+  }
+  
+  .controls {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .tempoOptions {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .results {
+    grid-template-columns: 1fr;
+  }
+  
+  .tipCard {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero h2 {
+    font-size: 1.6rem;
+  }
+  
+  .hero p {
+    font-size: 1rem;
+  }
+  
+  .resultContent p {
+    font-size: 1.3rem;
+  }
+  
+  .playButton {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .playButton i {
+    font-size: 1.4rem;
+  }
+} 

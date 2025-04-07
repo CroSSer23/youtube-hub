@@ -1,0 +1,6 @@
+# Разрешаем всем поисковым роботам индексировать сайт
+User-agent: *
+Allow: /
+
+# Указываем путь к sitemap
+Sitemap: https://yourhub.com/sitemap.xml 
