@@ -1,6 +1,11 @@
 import Head from 'next/head';
 import { useState, useEffect, useRef } from 'react';
 import styles from '../styles/Home.module.css';
+import LanguageSwitcher from '../components/LanguageSwitcher';
+
+// Импорт переводов
+import ukTranslations from '../locales/uk/common.json';
+import ruTranslations from '../locales/ru/common.json';
 
 export default function Home() {
   // Состояния
@@ -9,13 +14,20 @@ export default function Home() {
   const [duration, setDuration] = useState({ minutes: 0, seconds: 0 });
   const [pages, setPages] = useState(0);
   const [tempo, setTempo] = useState('slow');
+  const [locale, setLocale] = useState('uk');
   
   // Константы
   const WORDS_PER_PAGE = 300;
   const tempoRates = {
-    slow: 100,   // Размеренный темп
-    normal: 130, // Стандартный темп
-    fast: 150    // Быстрый темп
+    slow: 100,
+    normal: 130,
+    fast: 150
+  };
+  
+  // Объект переводов
+  const translations = {
+    uk: ukTranslations,
+    ru: ruTranslations
   };
   
   // Refs для кнопок копирования
@@ -23,6 +35,28 @@ export default function Home() {
     duration: useRef(null),
     words: useRef(null),
     pages: useRef(null)
+  };
+
+  // Загрузка локали
+  useEffect(() => {
+    const savedLocale = localStorage.getItem('locale') || 'uk';
+    setLocale(savedLocale);
+  }, []);
+
+  // Функция перевода
+  const t = (key, replacements = {}) => {
+    if (!translations[locale] || !translations[locale][key]) {
+      return key;
+    }
+    
+    let text = translations[locale][key];
+    
+    // Замена плейсхолдеров
+    Object.keys(replacements).forEach(placeholder => {
+      text = text.replace(`{${placeholder}}`, replacements[placeholder]);
+    });
+    
+    return text;
   };
 
   // Обработчик изменения текста
@@ -93,22 +127,23 @@ export default function Home() {
   return (
     <div className={styles.container}>
       <Head>
-        <title>YouTube Hub - Анализатор длительности текста</title>
-        <meta name="description" content="Инструмент для расчета длительности текста для YouTube видео" />
+        <title>{t('title')}</title>
+        <meta name="description" content={t('metaDescription')} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <header className={styles.header}>
         <div className={styles.logoContainer}>
           <i className="fab fa-youtube"></i>
-          <h1>YouTube Hub</h1>
+          <h1>{t('headerTitle')}</h1>
         </div>
+        <LanguageSwitcher />
       </header>
 
       <main className={styles.main}>
         <section className={styles.hero}>
-          <h2>Рассчитайте длительность текста для своего YouTube видео</h2>
-          <p>Наш инструмент поможет определить, сколько времени займет озвучка вашего текста</p>
+          <h2>{t('heroTitle')}</h2>
+          <p>{t('heroDescription')}</p>
           <div className={styles.heroAnimation}>
             <div className={styles.playButton}>
               <i className="fas fa-play"></i>
@@ -119,7 +154,7 @@ export default function Home() {
         <section className={styles.analyzer}>
           <div className={styles.controls}>
             <div className={styles.tempoSelector}>
-              <h3>Темп речи:</h3>
+              <h3>{t('tempoTitle')}</h3>
               <div className={styles.tempoOptions}>
                 <label className={tempo === 'slow' ? styles.active : ''}>
                   <input 
@@ -129,7 +164,7 @@ export default function Home() {
                     checked={tempo === 'slow'} 
                     onChange={handleTempoChange}
                   />
-                  <span>Размеренный (~100 сл/мин)</span>
+                  <span>{t('tempoSlow')}</span>
                 </label>
                 <label className={tempo === 'normal' ? styles.active : ''}>
                   <input 
@@ -139,7 +174,7 @@ export default function Home() {
                     checked={tempo === 'normal'} 
                     onChange={handleTempoChange}
                   />
-                  <span>Стандартный (~130 сл/мин)</span>
+                  <span>{t('tempoNormal')}</span>
                 </label>
                 <label className={tempo === 'fast' ? styles.active : ''}>
                   <input 
@@ -149,12 +184,12 @@ export default function Home() {
                     checked={tempo === 'fast'} 
                     onChange={handleTempoChange}
                   />
-                  <span>Быстрый (~150 сл/мин)</span>
+                  <span>{t('tempoFast')}</span>
                 </label>
               </div>
             </div>
             <button className={styles.clearBtn} onClick={handleClear}>
-              <i className="fas fa-trash-alt"></i> Очистить
+              <i className="fas fa-trash-alt"></i> {t('clearButton')}
             </button>
           </div>
 
@@ -162,7 +197,7 @@ export default function Home() {
             <textarea 
               value={text}
               onChange={handleTextChange}
-              placeholder="Скопируйте сюда текст для вашего YouTube видео..."
+              placeholder={t('textareaPlaceholder')}
             />
             <div className={styles.textBackground}></div>
           </div>
@@ -173,14 +208,14 @@ export default function Home() {
                 <i className="fas fa-clock"></i>
               </div>
               <div className={styles.resultContent}>
-                <h3>Длительность:</h3>
-                <p>{duration.minutes} мин {duration.seconds} сек</p>
+                <h3>{t('durationTitle')}</h3>
+                <p>{t('durationFormat', { minutes: duration.minutes, seconds: duration.seconds })}</p>
               </div>
               <button 
                 ref={resultRefs.duration}
                 className={styles.copyBtn}
-                onClick={() => copyToClipboard(`${duration.minutes} мин ${duration.seconds} сек`, resultRefs.duration)}
-                title="Копировать результат"
+                onClick={() => copyToClipboard(t('durationFormat', { minutes: duration.minutes, seconds: duration.seconds }), resultRefs.duration)}
+                title={t('copyTooltip')}
               >
                 <i className="fas fa-copy"></i>
               </button>
@@ -191,14 +226,14 @@ export default function Home() {
                 <i className="fas fa-font"></i>
               </div>
               <div className={styles.resultContent}>
-                <h3>Слов:</h3>
+                <h3>{t('wordsTitle')}</h3>
                 <p>{words}</p>
               </div>
               <button 
                 ref={resultRefs.words}
                 className={styles.copyBtn}
                 onClick={() => copyToClipboard(words.toString(), resultRefs.words)}
-                title="Копировать результат"
+                title={t('copyTooltip')}
               >
                 <i className="fas fa-copy"></i>
               </button>
@@ -209,14 +244,14 @@ export default function Home() {
                 <i className="fas fa-file-alt"></i>
               </div>
               <div className={styles.resultContent}>
-                <h3>Страниц:</h3>
-                <p>{pages.toFixed(1)} (А4, 14pt)</p>
+                <h3>{t('pagesTitle')}</h3>
+                <p>{pages.toFixed(2)}</p>
               </div>
               <button 
                 ref={resultRefs.pages}
                 className={styles.copyBtn}
-                onClick={() => copyToClipboard(`${pages.toFixed(1)} (А4, шрифт Times New Roman, размер 14)`, resultRefs.pages)}
-                title="Копировать результат"
+                onClick={() => copyToClipboard(pages.toFixed(2), resultRefs.pages)}
+                title={t('copyTooltip')}
               >
                 <i className="fas fa-copy"></i>
               </button>

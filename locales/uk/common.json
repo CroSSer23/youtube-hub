@@ -1,0 +1,20 @@
+{
+  "title": "YouTube Hub - Аналізатор тривалості тексту",
+  "metaDescription": "Інструмент для розрахунку тривалості тексту для YouTube відео",
+  "headerTitle": "YouTube Hub",
+  "heroTitle": "Розрахуйте тривалість тексту для свого YouTube відео",
+  "heroDescription": "Наш інструмент допоможе визначити, скільки часу займе озвучка вашого тексту",
+  "tempoTitle": "Темп мовлення:",
+  "tempoSlow": "Розмірений (~100 сл/хв)",
+  "tempoNormal": "Стандартний (~130 сл/хв)",
+  "tempoFast": "Швидкий (~150 сл/хв)",
+  "clearButton": "Очистити",
+  "textareaPlaceholder": "Скопіюйте сюди текст для вашого YouTube відео...",
+  "durationTitle": "Тривалість:",
+  "durationFormat": "{minutes} хв {seconds} сек",
+  "wordsTitle": "Слів:",
+  "pagesTitle": "Сторінок:",
+  "copyTooltip": "Копіювати результат",
+  "language": "Мова",
+  "switchToRu": "Русский"
+} 

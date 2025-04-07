@@ -1,0 +1,33 @@
+.languageSwitcher {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: rgba(0, 0, 0, 0.1);
+  padding: 8px 12px;
+  border-radius: 20px;
+  margin-left: auto;
+}
+
+.languageSwitcher span {
+  font-size: 14px;
+  color: #666;
+}
+
+.languageSwitcher button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.languageSwitcher button:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.languageSwitcher button.active {
+  background-color: rgba(255, 0, 0, 0.1);
+  font-weight: bold;
+} 
