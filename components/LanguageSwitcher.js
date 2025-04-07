@@ -13,14 +13,37 @@ export default function LanguageSwitcher() {
     // Указываем, что мы на клиенте
     setIsClient(true);
     // Получаем текущую локаль из localStorage
-    const savedLocale = localStorage.getItem('locale') || 'uk';
-    setLocale(savedLocale);
+    try {
+      const savedLocale = typeof window !== 'undefined' && window.localStorage 
+        ? localStorage.getItem('locale') || 'uk' 
+        : 'uk';
+      setLocale(savedLocale);
+    } catch (e) {
+      console.error('Ошибка доступа к localStorage:', e);
+    }
   }, []);
 
   const changeLanguage = (newLocale) => {
-    localStorage.setItem('locale', newLocale);
-    setLocale(newLocale);
-    window.location.reload();
+    try {
+      if (typeof window !== 'undefined' && window.localStorage) {
+        localStorage.setItem('locale', newLocale);
+      }
+      setLocale(newLocale);
+      if (typeof window !== 'undefined') {
+        window.location.reload();
+      }
+    } catch (e) {
+      console.error('Ошибка при смене языка:', e);
+    }
+  };
+
+  // Определяем язык безопасно
+  const getLanguageText = () => {
+    try {
+      return translations[locale]?.language || 'Мова';
+    } catch (e) {
+      return 'Мова';
+    }
   };
 
   // Если компонент еще не на клиенте, показываем заглушку
@@ -30,7 +53,7 @@ export default function LanguageSwitcher() {
 
   return (
     <div className={styles.languageSwitcher}>
-      <span>{translations[locale].language}:</span>
+      <span>{getLanguageText()}:</span>
       {locale === 'uk' ? (
         <button onClick={() => changeLanguage('ru')}>
           🇷🇺 Русский

@@ -38,33 +38,53 @@ export default function Home() {
     pages: useRef(null)
   };
 
+  // Безопасный доступ к localStorage
+  const getLocalStorage = (key, defaultValue) => {
+    try {
+      if (typeof window !== 'undefined' && window.localStorage) {
+        const value = localStorage.getItem(key);
+        return value !== null ? value : defaultValue;
+      }
+      return defaultValue;
+    } catch (e) {
+      console.error(`Ошибка при получении ${key} из localStorage:`, e);
+      return defaultValue;
+    }
+  };
+
   // Загрузка локали и отметка о клиентском рендеринге
   useEffect(() => {
     setIsClient(true);
-    const savedLocale = localStorage.getItem('locale') || 'uk';
+    const savedLocale = getLocalStorage('locale', 'uk');
     setLocale(savedLocale);
     
-    const savedText = localStorage.getItem('youtubeHubText');
-    const savedTempo = localStorage.getItem('youtubeHubTempo');
+    const savedText = getLocalStorage('youtubeHubText', '');
+    const savedTempo = getLocalStorage('youtubeHubTempo', 'slow');
     
     if (savedText) setText(savedText);
     if (savedTempo) setTempo(savedTempo);
   }, []);
 
-  // Функция перевода
+  // Функция перевода с защитой от ошибок
   const t = (key, replacements = {}) => {
-    if (!translations[locale] || !translations[locale][key]) {
+    try {
+      if (!translations[locale] || !translations[locale][key]) {
+        // Возвращаем ключ, если перевод не найден
+        return key;
+      }
+      
+      let text = translations[locale][key];
+      
+      // Замена плейсхолдеров
+      Object.keys(replacements).forEach(placeholder => {
+        text = text.replace(`{${placeholder}}`, replacements[placeholder]);
+      });
+      
+      return text;
+    } catch (e) {
+      console.error(`Ошибка при переводе ключа ${key}:`, e);
       return key;
     }
-    
-    let text = translations[locale][key];
-    
-    // Замена плейсхолдеров
-    Object.keys(replacements).forEach(placeholder => {
-      text = text.replace(`{${placeholder}}`, replacements[placeholder]);
-    });
-    
-    return text;
   };
 
   // Обработчик изменения текста
@@ -86,13 +106,30 @@ export default function Home() {
   const copyToClipboard = (text, ref) => {
     if (!isClient) return;
     
-    navigator.clipboard.writeText(text).then(() => {
-      const icon = ref.current.querySelector('i');
-      icon.className = 'fas fa-check';
-      setTimeout(() => {
-        icon.className = 'fas fa-copy';
-      }, 2000);
-    });
+    try {
+      if (typeof navigator !== 'undefined' && navigator.clipboard) {
+        navigator.clipboard.writeText(text).then(() => {
+          const icon = ref.current.querySelector('i');
+          icon.className = 'fas fa-check';
+          setTimeout(() => {
+            icon.className = 'fas fa-copy';
+          }, 2000);
+        });
+      }
+    } catch (e) {
+      console.error('Ошибка при копировании в буфер обмена:', e);
+    }
+  };
+
+  // Безопасное сохранение в localStorage
+  const setLocalStorage = (key, value) => {
+    try {
+      if (isClient && typeof window !== 'undefined' && window.localStorage) {
+        localStorage.setItem(key, value);
+      }
+    } catch (e) {
+      console.error(`Ошибка при сохранении ${key} в localStorage:`, e);
+    }
   };
 
   // Расчет длительности при изменении текста или темпа
@@ -121,10 +158,8 @@ export default function Home() {
     setPages(wordCount / WORDS_PER_PAGE);
     
     // Сохранение в localStorage
-    if (isClient) {
-      localStorage.setItem('youtubeHubText', text);
-      localStorage.setItem('youtubeHubTempo', tempo);
-    }
+    setLocalStorage('youtubeHubText', text);
+    setLocalStorage('youtubeHubTempo', tempo);
   }, [text, tempo, isClient]);
 
   return (
@@ -263,37 +298,43 @@ export default function Home() {
         </section>
 
         <section className={styles.tips}>
-          <h2>Полезные советы для создателей контента</h2>
+          <h2>{locale === 'uk' ? 'Корисні поради для творців контенту' : 'Полезные советы для создателей контента'}</h2>
           <div className={styles.tipsGrid}>
             <div className={styles.tipCard}>
               <div className={styles.tipIcon}>
                 <i className="fas fa-microphone"></i>
               </div>
-              <h3>Правило: 2 слова = 1 секунда</h3>
-              <p>Это базовое правило для расчета хронометража при стандартной скорости речи. Его используют профессиональные дикторы и создатели контента.</p>
+              <h3>{locale === 'uk' ? 'Правило: 2 слова = 1 секунда' : 'Правило: 2 слова = 1 секунда'}</h3>
+              <p>{locale === 'uk' 
+                ? 'Це базове правило для розрахунку хронометражу при стандартній швидкості мовлення. Його використовують професійні диктори та творці контенту.' 
+                : 'Это базовое правило для расчета хронометража при стандартной скорости речи. Его используют профессиональные дикторы и создатели контента.'}</p>
             </div>
             
             <div className={styles.tipCard}>
               <div className={styles.tipIcon}>
                 <i className="fas fa-pause"></i>
               </div>
-              <h3>Важность пауз</h3>
-              <p>Не забывайте о паузах - они помогают зрителям усвоить информацию. Расставляйте смысловые акценты с помощью коротких пауз перед важными фразами.</p>
+              <h3>{locale === 'uk' ? 'Важливість пауз' : 'Важность пауз'}</h3>
+              <p>{locale === 'uk'
+                ? 'Не забувайте про паузи - вони допомагають глядачам засвоїти інформацію. Розставляйте смислові акценти за допомогою коротких пауз перед важливими фразами.'
+                : 'Не забывайте о паузах - они помогают зрителям усвоить информацию. Расставляйте смысловые акценты с помощью коротких пауз перед важными фразами.'}</p>
             </div>
             
             <div className={styles.tipCard}>
               <div className={styles.tipIcon}>
                 <i className="fas fa-running"></i>
               </div>
-              <h3>Динамика речи</h3>
-              <p>Для удержания внимания аудитории меняйте темп речи. Важную информацию произносите медленнее, фоновую - быстрее.</p>
+              <h3>{locale === 'uk' ? 'Динаміка мовлення' : 'Динамика речи'}</h3>
+              <p>{locale === 'uk'
+                ? 'Для утримання уваги аудиторії змінюйте темп мовлення. Важливу інформацію вимовляйте повільніше, фонову - швидше.'
+                : 'Для удержания внимания аудитории меняйте темп речи. Важную информацию произносите медленнее, фоновую - быстрее.'}</p>
             </div>
           </div>
         </section>
       </main>
 
       <footer className={styles.footer}>
-        <p>© {new Date().getFullYear()} YouTube Hub. Все права защищены.</p>
+        <p>© {new Date().getFullYear()} YouTube Hub. {locale === 'uk' ? 'Всі права захищені.' : 'Все права защищены.'}</p>
       </footer>
     </div>
   );

@@ -17,19 +17,29 @@ export default function LocaleProvider({ children }) {
     setIsClient(true);
     
     // Проверяем сохраненную локаль при загрузке
-    const savedLocale = localStorage.getItem('locale');
-    if (savedLocale) {
-      setLocale(savedLocale);
+    try {
+      if (typeof window !== 'undefined' && window.localStorage) {
+        const savedLocale = localStorage.getItem('locale');
+        if (savedLocale) {
+          setLocale(savedLocale);
+        }
+      }
+    } catch (e) {
+      console.error('Ошибка доступа к localStorage:', e);
     }
   }, []);
 
   const changeLocale = (newLocale) => {
     setLocale(newLocale);
     
-    if (isClient) {
-      localStorage.setItem('locale', newLocale);
-      // Перезагрузим страницу с новой локалью
-      window.location.reload();
+    try {
+      if (isClient && typeof window !== 'undefined' && window.localStorage) {
+        localStorage.setItem('locale', newLocale);
+        // Перезагрузим страницу с новой локалью
+        window.location.reload();
+      }
+    } catch (e) {
+      console.error('Ошибка при смене языка:', e);
     }
   };
 
