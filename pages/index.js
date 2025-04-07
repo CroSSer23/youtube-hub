@@ -63,6 +63,18 @@ export default function Home() {
     
     if (savedText) setText(savedText);
     if (savedTempo) setTempo(savedTempo);
+
+    // Добавляем слушатель события смены языка
+    const handleLanguageChange = (event) => {
+      setLocale(event.detail.locale);
+    };
+    
+    window.addEventListener('languageChange', handleLanguageChange);
+    
+    // Очистка слушателя при размонтировании
+    return () => {
+      window.removeEventListener('languageChange', handleLanguageChange);
+    };
   }, []);
 
   // Функция перевода с защитой от ошибок

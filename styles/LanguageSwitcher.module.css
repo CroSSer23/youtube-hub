@@ -13,21 +13,47 @@
   color: #666;
 }
 
-.languageSwitcher button {
+.flagButtons {
+  display: flex;
+  gap: 5px;
+}
+
+.flagButton {
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 14px;
-  padding: 4px 8px;
-  border-radius: 4px;
+  font-size: 18px;
+  padding: 4px;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   transition: all 0.2s ease;
+  position: relative;
+  opacity: 0.6;
 }
 
-.languageSwitcher button:hover {
+.flagButton:hover {
   background-color: rgba(0, 0, 0, 0.1);
+  transform: scale(1.1);
+  opacity: 1;
 }
 
-.languageSwitcher button.active {
-  background-color: rgba(255, 0, 0, 0.1);
-  font-weight: bold;
+.flagButton.active {
+  opacity: 1;
+  box-shadow: 0 0 0 2px rgba(255, 0, 0, 0.3);
+}
+
+.flagButton.active::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 4px;
+  background-color: #ff0000;
+  border-radius: 50%;
 } 
