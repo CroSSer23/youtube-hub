@@ -10,8 +10,12 @@ export function useLocale() {
 export default function LocaleProvider({ children }) {
   const router = useRouter();
   const [locale, setLocale] = useState('uk'); // Українська як язык по умолчанию
+  const [isClient, setIsClient] = useState(false);
   
   useEffect(() => {
+    // Отмечаем, что мы на клиенте
+    setIsClient(true);
+    
     // Проверяем сохраненную локаль при загрузке
     const savedLocale = localStorage.getItem('locale');
     if (savedLocale) {
@@ -21,14 +25,16 @@ export default function LocaleProvider({ children }) {
 
   const changeLocale = (newLocale) => {
     setLocale(newLocale);
-    localStorage.setItem('locale', newLocale);
     
-    // Перезагрузим страницу с новой локалью
-    window.location.reload();
+    if (isClient) {
+      localStorage.setItem('locale', newLocale);
+      // Перезагрузим страницу с новой локалью
+      window.location.reload();
+    }
   };
 
   return (
-    <LocaleContext.Provider value={{ locale, changeLocale }}>
+    <LocaleContext.Provider value={{ locale, changeLocale, isClient }}>
       {children}
     </LocaleContext.Provider>
   );

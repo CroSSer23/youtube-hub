@@ -15,6 +15,7 @@ export default function Home() {
   const [pages, setPages] = useState(0);
   const [tempo, setTempo] = useState('slow');
   const [locale, setLocale] = useState('uk');
+  const [isClient, setIsClient] = useState(false);
   
   // Константы
   const WORDS_PER_PAGE = 300;
@@ -37,10 +38,17 @@ export default function Home() {
     pages: useRef(null)
   };
 
-  // Загрузка локали
+  // Загрузка локали и отметка о клиентском рендеринге
   useEffect(() => {
+    setIsClient(true);
     const savedLocale = localStorage.getItem('locale') || 'uk';
     setLocale(savedLocale);
+    
+    const savedText = localStorage.getItem('youtubeHubText');
+    const savedTempo = localStorage.getItem('youtubeHubTempo');
+    
+    if (savedText) setText(savedText);
+    if (savedTempo) setTempo(savedTempo);
   }, []);
 
   // Функция перевода
@@ -76,6 +84,8 @@ export default function Home() {
 
   // Копирование результата
   const copyToClipboard = (text, ref) => {
+    if (!isClient) return;
+    
     navigator.clipboard.writeText(text).then(() => {
       const icon = ref.current.querySelector('i');
       icon.className = 'fas fa-check';
@@ -111,18 +121,11 @@ export default function Home() {
     setPages(wordCount / WORDS_PER_PAGE);
     
     // Сохранение в localStorage
-    localStorage.setItem('youtubeHubText', text);
-    localStorage.setItem('youtubeHubTempo', tempo);
-  }, [text, tempo]);
-
-  // Загрузка данных из localStorage при монтировании
-  useEffect(() => {
-    const savedText = localStorage.getItem('youtubeHubText');
-    const savedTempo = localStorage.getItem('youtubeHubTempo');
-    
-    if (savedText) setText(savedText);
-    if (savedTempo) setTempo(savedTempo);
-  }, []);
+    if (isClient) {
+      localStorage.setItem('youtubeHubText', text);
+      localStorage.setItem('youtubeHubTempo', tempo);
+    }
+  }, [text, tempo, isClient]);
 
   return (
     <div className={styles.container}>

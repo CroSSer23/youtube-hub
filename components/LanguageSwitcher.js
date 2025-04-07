@@ -3,12 +3,15 @@ import styles from '../styles/LanguageSwitcher.module.css';
 
 export default function LanguageSwitcher() {
   const [locale, setLocale] = useState('uk');
-  const [translations, setTranslations] = useState({
+  const [isClient, setIsClient] = useState(false);
+  const translations = {
     uk: { language: 'Мова', switchTo: 'Русский' },
     ru: { language: 'Язык', switchTo: 'Українська' }
-  });
+  };
 
   useEffect(() => {
+    // Указываем, что мы на клиенте
+    setIsClient(true);
     // Получаем текущую локаль из localStorage
     const savedLocale = localStorage.getItem('locale') || 'uk';
     setLocale(savedLocale);
@@ -19,6 +22,11 @@ export default function LanguageSwitcher() {
     setLocale(newLocale);
     window.location.reload();
   };
+
+  // Если компонент еще не на клиенте, показываем заглушку
+  if (!isClient) {
+    return <div className={styles.languageSwitcher}></div>;
+  }
 
   return (
     <div className={styles.languageSwitcher}>
