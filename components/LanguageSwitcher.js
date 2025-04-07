@@ -63,6 +63,26 @@ export default function LanguageSwitcher() {
     return <div className={styles.languageSwitcher}></div>;
   }
 
+  // SVG-флаги вместо эмодзи
+  const UkrainianFlag = () => (
+    <svg viewBox="0 0 640 480" className={styles.flagSvg}>
+      <g fillRule="evenodd" strokeWidth="1pt">
+        <path fill="#ffd700" d="M0 0h640v480H0z"/>
+        <path fill="#0057b8" d="M0 0h640v240H0z"/>
+      </g>
+    </svg>
+  );
+
+  const RussianFlag = () => (
+    <svg viewBox="0 0 640 480" className={styles.flagSvg}>
+      <g fillRule="evenodd" strokeWidth="1pt">
+        <path fill="#fff" d="M0 0h640v480H0z"/>
+        <path fill="#0039a6" d="M0 160h640v320H0z"/>
+        <path fill="#d52b1e" d="M0 320h640v160H0z"/>
+      </g>
+    </svg>
+  );
+
   return (
     <div className={styles.languageSwitcher}>
       <span>{getLanguageText()}:</span>
@@ -72,14 +92,14 @@ export default function LanguageSwitcher() {
           onClick={() => locale !== 'uk' && changeLanguage('uk')}
           title="Українська"
         >
-          🇺🇦
+          <UkrainianFlag />
         </button>
         <button 
           className={`${styles.flagButton} ${locale === 'ru' ? styles.active : ''}`} 
           onClick={() => locale !== 'ru' && changeLanguage('ru')}
           title="Русский"
         >
-          🇷🇺
+          <RussianFlag />
         </button>
       </div>
     </div>
