@@ -4,10 +4,6 @@ import styles from '../styles/LanguageSwitcher.module.css';
 export default function LanguageSwitcher() {
   const [locale, setLocale] = useState('uk');
   const [isClient, setIsClient] = useState(false);
-  const translations = {
-    uk: { language: 'Мова', switchTo: 'Русский' },
-    ru: { language: 'Язык', switchTo: 'Українська' }
-  };
 
   // Функция для создания события смены языка
   const createLanguageEvent = (newLocale) => {
@@ -49,15 +45,6 @@ export default function LanguageSwitcher() {
     }
   };
 
-  // Определяем язык безопасно
-  const getLanguageText = () => {
-    try {
-      return translations[locale]?.language || 'Мова';
-    } catch (e) {
-      return 'Мова';
-    }
-  };
-
   // Если компонент еще не на клиенте, показываем заглушку
   if (!isClient) {
     return <div className={styles.languageSwitcher}></div>;
@@ -85,7 +72,6 @@ export default function LanguageSwitcher() {
 
   return (
     <div className={styles.languageSwitcher}>
-      <span>{getLanguageText()}:</span>
       <div className={styles.flagButtons}>
         <button 
           className={`${styles.flagButton} ${locale === 'uk' ? styles.active : ''}`} 
