@@ -14,9 +14,9 @@
 
 .flagButton {
   background: none;
-  border: none;
+  border: 1px solid rgba(0, 0, 0, 0.1);
   cursor: pointer;
-  padding: 0;
+  padding: 1px;
   width: 36px;
   height: 28px;
   display: flex;
@@ -31,27 +31,21 @@
 .flagSvg {
   width: 100%;
   height: 100%;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  display: block;
 }
 
 .flagButton:hover {
   transform: scale(1.05);
   opacity: 1;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  border-color: rgba(0, 0, 0, 0.3);
 }
 
 .flagButton.active {
   opacity: 1;
-  box-shadow: 0 0 0 2px #ff3333;
+  border: 2px solid #ff3333;
+  padding: 0;
 }
 
 .flagButton.active::after {
-  content: '';
-  position: absolute;
-  bottom: -1px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 6px;
-  height: 2px;
-  background-color: #ff3333;
+  display: none;
 } 

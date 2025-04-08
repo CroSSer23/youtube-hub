@@ -52,21 +52,17 @@ export default function LanguageSwitcher() {
 
   // SVG-флаги вместо эмодзи
   const UkrainianFlag = () => (
-    <svg viewBox="0 0 640 480" className={styles.flagSvg}>
-      <g fillRule="evenodd" strokeWidth="1pt">
-        <path fill="#ffd700" d="M0 0h640v480H0z"/>
-        <path fill="#0057b8" d="M0 0h640v240H0z"/>
-      </g>
+    <svg viewBox="0 0 4 3" className={styles.flagSvg}>
+      <rect width="4" height="3" fill="#ffd700" />
+      <rect width="4" height="1.5" fill="#0057b8" />
     </svg>
   );
 
   const RussianFlag = () => (
-    <svg viewBox="0 0 640 480" className={styles.flagSvg}>
-      <g fillRule="evenodd" strokeWidth="1pt">
-        <path fill="#fff" d="M0 0h640v480H0z"/>
-        <path fill="#0039a6" d="M0 160h640v320H0z"/>
-        <path fill="#d52b1e" d="M0 320h640v160H0z"/>
-      </g>
+    <svg viewBox="0 0 4 3" className={styles.flagSvg}>
+      <rect width="4" height="1" fill="#fff" />
+      <rect width="4" height="1" y="1" fill="#0039a6" />
+      <rect width="4" height="1" y="2" fill="#d52b1e" />
     </svg>
   );
 
